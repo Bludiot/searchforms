@@ -72,11 +72,11 @@ $defaults = [
 
 	<p><?php $L->p( 'Following is an example of displaying a default form in a theme template.<br />Note the SearchForms namespace and backslash before the function call.' ); ?></p>
 
-	<p><code>&lt;?php SearchForms\form(); ?&gt;</code></p>
+	<pre lang="PHP">&lt;?php SearchForms\form(); ?&gt;</pre>
 
 	<p><?php $L->p( 'The following example demonstrates a simple override of the form label.' ); ?></p>
 
-	<p><code>&lt;?php SearchForms\form( [ 'label' => $L->get( 'Search Content' ) ] ); ?&gt;</code></p>
+	<pre lang="PHP">&lt;?php SearchForms\form( [ 'label' => $L->get( 'Search Content' ) ] ); ?&gt;</pre>
 
 	<p><?php $L->p( 'The following example modifies the heading element, the text placeholder, and the button text.' ); ?></p>
 
