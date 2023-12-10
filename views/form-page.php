@@ -130,14 +130,28 @@ $guide_page = DOMAIN_ADMIN . 'plugin/Search_Forms';
 				</div>
 			</div>
 
-			<div id="button_text_wrap" class="form-field form-group row" style="display: <?php echo ( $this->button() ? 'flex' : 'none' ); ?>;">
-				<label class="form-label col-sm-2 col-form-label" for="button_text"><?php $L->p( 'Button Text' ); ?></label>
-				<div class="col-sm-10">
-					<div class="form-control-has-button">
-						<input type="text" id="button_text" name="button_text" value="<?php echo $this->getValue( 'button_text' ); ?>" placeholder="<?php $L->p( 'Submit' ); ?>" />
-						<span class="btn btn-secondary btn-md button hide-if-no-js" onClick="$('#button_text').val('<?php echo $this->dbFields['button_text']; ?>');"><?php $L->p( 'Default' ); ?></span>
+			<div id="button_fields_wrap" style="display: <?php echo ( $this->button() ? 'block' : 'none' ); ?>;">
+
+				<div class="form-field form-group row">
+					<label class="form-label col-sm-2 col-form-label" for="button_text"><?php $L->p( 'Button Text' ); ?></label>
+					<div class="col-sm-10">
+						<div class="form-control-has-button">
+							<input type="text" id="button_text" name="button_text" value="<?php echo $this->getValue( 'button_text' ); ?>" placeholder="<?php $L->p( 'Submit' ); ?>" />
+							<span class="btn btn-secondary btn-md button hide-if-no-js" onClick="$('#button_text').val('<?php echo $this->dbFields['button_text']; ?>');"><?php $L->p( 'Default' ); ?></span>
+						</div>
+						<small class="form-text text-muted"><?php $L->p( 'The text of the form submit button.' ); ?></small>
 					</div>
-					<small class="form-text text-muted"><?php $L->p( 'The text of the form submit button.' ); ?></small>
+				</div>
+
+				<div class="form-field form-group row">
+					<label class="form-label col-sm-2 col-form-label" for="button_class"><?php $L->p( 'Button Classes' ); ?></label>
+					<div class="col-sm-10">
+						<div class="form-control-has-button">
+							<input type="text" id="button_class" name="button_class" value="<?php echo $this->getValue( 'button_class' ); ?>" placeholder="<?php echo $this->dbFields['button_class']; ?>" />
+							<span class="btn btn-secondary btn-md button hide-if-no-js" onClick="$('#button_class').val('<?php echo $this->dbFields['button_class']; ?>');"><?php $L->p( 'Default' ); ?></span>
+						</div>
+						<small class="form-text text-muted"><?php $L->p( 'The CSS classes of the form submit button.' ); ?></small>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -161,12 +175,12 @@ jQuery(document).ready( function($) {
 	$( '#button' ).on( 'change', function() {
 		var show = $(this).val();
 		if ( show == 'true' ) {
-			$( "#button_text_wrap" ).fadeIn( 250 );
+			$( "#button_fields_wrap" ).fadeIn( 250 );
 			$( 'html, body' ).animate( {
-				scrollTop: $( '#button_text_wrap' ).offset().top
+				scrollTop: $( '#button_fields_wrap' ).offset().top
 			}, 1000 );
 		} else if ( show == 'false' ) {
-			$( "#button_text_wrap" ).fadeOut( 250 );
+			$( "#button_fields_wrap" ).fadeOut( 250 );
 		}
 	});
 });

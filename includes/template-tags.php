@@ -55,14 +55,15 @@ function form( $args = null, $defaults = [] ) {
 
 	// Default arguments.
 	$defaults = [
-		'wrap'        => true,
-		'wrap_class'  => 'form-wrap search-form-wrap',
-		'form_class'  => 'form search-form',
-		'label'       => $L->get( 'Search' ),
-		'label_wrap'  => 'h2',
-		'placeholder' => $L->get( "Enter at least {$min_chars} characters." ),
-		'button'      => true,
-		'button_text' => $L->get( 'Submit' )
+		'wrap'         => true,
+		'wrap_class'   => 'form-wrap search-form-wrap',
+		'form_class'   => 'form search-form',
+		'label'        => $L->get( 'Search' ),
+		'label_wrap'   => 'h2',
+		'placeholder'  => $L->get( "Enter at least {$min_chars} characters." ),
+		'button'       => true,
+		'button_text'  => $L->get( 'Submit' ),
+		'button_class' => 'button search-submit-button'
 	];
 
 	// Maybe override defaults.
@@ -110,8 +111,9 @@ function form( $args = null, $defaults = [] ) {
 
 	if ( $args['button'] ) {
 		$html .= sprintf(
-			'<input type="button" id="%s" class="button btn submit-button search-submit-button" value="%s" onClick="%s" />',
+			'<input type="button" id="%s" class="%s" value="%s" onClick="%s" />',
 			$form_id . '_submit',
+			$args['button_class'],
 			$args['button_text'],
 			"{$form_id}_action()"
 		);
@@ -176,6 +178,12 @@ function sidebar_search() {
 		$args = array_merge( $args, [ 'button_text' => false ] );
 	} elseif ( $plugin->button_text() ) {
 		$args = array_merge( $args, [ 'button_text' => $plugin->button_text() ] );
+	}
+
+	if ( ! $plugin->button_class() ) {
+		$args = array_merge( $args, [ 'button_class' => '' ] );
+	} elseif ( $plugin->button_class() ) {
+		$args = array_merge( $args, [ 'button_class' => $plugin->button_class() ] );
 	}
 
 	// Return a modified search form.

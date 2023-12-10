@@ -74,17 +74,18 @@ class Search_Forms extends Plugin {
 
 		// Database fields array.
 		$this->dbFields = [
-			'min_chars'   => 3,
-			'cache_words' => 800,
-			'in_sidebar'  => true,
-			'wrap'        => true,
-			'wrap_class'  => 'form-wrap search-form-wrap',
-			'form_class'  => 'form search-form',
-			'label'       => $L->get( 'Search' ),
-			'label_wrap'  => 'h2',
-			'placeholder' => $L->get( "Enter at least 3 characters." ),
-			'button'      => true,
-			'button_text' => $L->get( 'Submit' )
+			'min_chars'    => 3,
+			'cache_words'  => 800,
+			'in_sidebar'   => true,
+			'wrap'         => true,
+			'wrap_class'   => 'form-wrap search-form-wrap',
+			'form_class'   => 'form search-form',
+			'label'        => $L->get( 'Search' ),
+			'label_wrap'   => 'h2',
+			'placeholder'  => $L->get( "Enter at least 3 characters." ),
+			'button'       => true,
+			'button_text'  => $L->get( 'Submit' ),
+			'button_class' => 'button btn btn-md search-submit-button'
 		];
 
 		if ( ! $this->installed() ) {
@@ -501,6 +502,11 @@ class Search_Forms extends Plugin {
 	// @return string
 	public function button_text() {
 		return $this->getValue( 'button_text' );
+	}
+
+	// @return string
+	public function button_class() {
+		return $this->getValue( 'button_class' );
 	}
 }
 
