@@ -27,22 +27,22 @@ use function SearchForms\sidebar_search;
 class Search_Forms extends Plugin {
 
 	/**
-	 * Source
+	 * Pages found in search
 	 *
 	 * @since  1.0.0
 	 * @access private
 	 * @var    array An array of associative arrays.
 	 */
-	private $pagesFound = [];
+	private $result_pages = [];
 
 	/**
-	 * Search mode
+	 * Number of results
 	 *
 	 * @since  1.0.0
 	 * @access private
 	 * @var    integer
 	 */
-	private $numberOfItems = 0;
+	private $result_items = 0;
 
 	/**
 	 * Constructor method
@@ -368,26 +368,26 @@ class Search_Forms extends Plugin {
 			$url->setWhereAmI( 'search' );
 
 			// Get the string to search from the URL
-			$stringToSearch = $this->webhook( $webhook, true, false );
-			$stringToSearch = trim( $stringToSearch, '/' );
+			$search_string = $this->webhook( $webhook, true, false );
+			$search_string = trim( $search_string, '/' );
 
 			// Search the string in the cache and get all pages with matches
-			$list = $this->search_results( $stringToSearch );
-			$this->numberOfItems = count( $list );
+			$list = $this->search_results( $search_string );
+			$this->result_items = count( $list );
 
 			// Split the content in pages
 			// The first page number is 1, so the real is 0
-			$realPageNumber = $url->pageNumber() - 1;
-			$itemsPerPage   = $site->itemsPerPage();
+			$num_page = $url->pageNumber() - 1;
+			$per_page = $site->itemsPerPage();
 
-			if ( $itemsPerPage <= 0 ) {
-				if ( $realPageNumber === 0 ) {
-					$this->pagesFound = $list;
+			if ( $per_page <= 0 ) {
+				if ( $num_page === 0 ) {
+					$this->result_pages = $list;
 				}
 			} else {
-				$chunks = array_chunk( $list, $itemsPerPage );
-				if ( isset( $chunks[$realPageNumber] ) ) {
-					$this->pagesFound = $chunks[$realPageNumber];
+				$chunks = array_chunk( $list, $per_page );
+				if ( isset( $chunks[$num_page] ) ) {
+					$this->result_pages = $chunks[$num_page];
 				}
 			}
 		}
@@ -405,7 +405,7 @@ class Search_Forms extends Plugin {
 	public function paginator() {
 
 		// Access global variables.
-		global $numberOfItems;
+		global $result_items;
 
 		$webhook = 'search';
 		if ( $this->webhook( $webhook, false, false ) ) {
@@ -417,7 +417,7 @@ class Search_Forms extends Plugin {
 			 * Is necessary to change this variable to fit the
 			 * paginator with the result from the search.
 			 */
-			$numberOfItems = $this->numberOfItems;
+			$result_items = $this->result_items;
 		}
 	}
 
@@ -439,7 +439,7 @@ class Search_Forms extends Plugin {
 			$WHERE_AM_I = 'search';
 			$content    = [];
 
-			foreach ( $this->pagesFound as $key ) {
+			foreach ( $this->result_pages as $key ) {
 				try {
 					$page = new Page( $key );
 					array_push( $content, $page );
@@ -467,8 +467,8 @@ class Search_Forms extends Plugin {
 
 		// Get list of published pages.
 		$list = $pages->getList(
-			$pageNumber    = 1,
-			$numberOfItems = -1,
+			$page_number   = 1,
+			$result_items  = -1,
 			$published     = true,
 			$static        = true,
 			$sticky        = true,
