@@ -45,13 +45,26 @@ class Search_Forms extends Plugin {
 	private $result_items = 0;
 
 	/**
+	 * Results per page
+	 *
+	 * @since  1.0.0
+	 * @access private
+	 * @var    integer
+	 */
+	private $per_page = 6;
+
+	/**
 	 * Constructor method
 	 *
 	 * @since  1.0.0
 	 * @access public
+	 * @global object $site Site class.
 	 * @return self
 	 */
 	public function __construct() {
+
+		// Access global variables.
+		global $site;
 
 		// Run parent constructor.
 		parent :: __construct();
@@ -61,6 +74,8 @@ class Search_Forms extends Plugin {
 			$this->autoload();
 			$this->get_files();
 		}
+
+		$this->per_page = $site->itemsPerPage();
 	}
 
 	/**
@@ -168,7 +183,7 @@ class Search_Forms extends Plugin {
 	 * @since  1.0.0
 	 * @access public
 	 * @global object $site Site class.
-	 * @global object $site Url class.
+	 * @global object $url Url class.
 	 * @return void
 	 */
 	public function adminHead() {
@@ -243,6 +258,7 @@ class Search_Forms extends Plugin {
 	 * @access public
 	 * @global object $L The Language class.
 	 * @global array $layout
+	 * @global object $site Site class.
 	 * @return string Returns the head content.
 	 */
 	public function adminController() {
@@ -352,12 +368,13 @@ class Search_Forms extends Plugin {
 	 *
 	 * @since  1.0.0
 	 * @access public
+	 * @global object $url Url class.
 	 * @return void
 	 */
 	public function beforeAll() {
 
 		// Access global variables.
-		global $site, $url;
+		global $url;
 
 		// Check if the URL matches the webhook.
 		$webhook = 'search';
@@ -378,7 +395,7 @@ class Search_Forms extends Plugin {
 			// Split the content in pages
 			// The first page number is 1, so the real is 0
 			$num_page = $url->pageNumber() - 1;
-			$per_page = $site->itemsPerPage();
+			$per_page = $this->per_page;
 
 			if ( $per_page <= 0 ) {
 				if ( $num_page === 0 ) {
@@ -400,6 +417,7 @@ class Search_Forms extends Plugin {
 	 *
 	 * @since  1.0.0
 	 * @access public
+	 * @global integer $result_items
 	 * @return void
 	 */
 	public function paginator() {
@@ -426,12 +444,14 @@ class Search_Forms extends Plugin {
 	 *
 	 * @since  1.0.0
 	 * @access public
+	 * @global array $content
+	 * @global string $WHERE_AM_I
 	 * @return void
 	 */
 	public function beforeSiteLoad() {
 
 		// Access global variables.
-		global $content, $url, $WHERE_AM_I;
+		global $content, $WHERE_AM_I;
 
 		$webhook = 'search';
 		if ( $this->webhook( $webhook, false, false ) ) {
