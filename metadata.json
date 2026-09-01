@@ -5,7 +5,7 @@
 	"version"     : "1.0.0",
 	"releaseDate" : "",
 	"license"     : "",
-	"compatible"  : "3.15.0",
+	"compatible"  : "3.22.0",
 	"theme_desc"  : "The Search Forms plugin is an improved version of the default Bludit search plugin. It allows for more than one search form on one page, whereas the default plugin does not. Many options are available for customization.",
 	"notes"       : "",
 	"theme_compat" : [ "configureight" ]
